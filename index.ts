@@ -11,7 +11,7 @@ const port = Number(process.env.PORT);
 
 app.get("/", (request, response) => {
   response.send(`
-        <h1>Hello World from Stryd Video Server</h1>
+        <h1>Hello World from stryd video server</h1>
         <p>Processing fitness video one frame a time...  </p>
         <a href="/">Visit Upload </a>
     `);
@@ -60,7 +60,7 @@ app.post("/upload", upload.single("file"), (request, response) => {
       ) // Set the segment file names
       .output(path.join(outputDirectory, outputFileName)) // Output to output.m3u8
       .on("end", () => {
-        console.log("File has been converted succesfully");
+        console.log("File has been converted successfully");
       })
       .on("error", (err) => {
         console.log("An error occurred: " + err.message);
