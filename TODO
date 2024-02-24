@@ -1,0 +1,11 @@
+TODO:
+    Basic:
+        ☐ Create a new egress folder when ffmpeg is called with a new output file
+        ☐ html form to upload file
+        ☐ Drag and drop file upload support
+    Advanced:
+        ☐ Add Google Cloud Storage support
+        ☐ Cloud function to trigger on new file in bucket
+        ☐ ffmpeg to run on cloud function
+        ☐ Cloud function save  converted file to new folder in a  new bucket | or same bucket
+
