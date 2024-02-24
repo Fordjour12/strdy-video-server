@@ -1,0 +1,6 @@
+{
+  "verbose": true,
+  "execMap": {
+    "ts": "bun run index.ts"
+  }
+}
