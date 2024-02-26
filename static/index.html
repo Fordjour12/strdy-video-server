@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video Processing</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="./index.js"></script>
   </head>
   <body>
     <div
@@ -21,12 +22,13 @@
           action="/upload"
           method="post"
           enctype="multipart/form-data"
+          id="video-form"
         >
           <div class="rounded-md shadow-sm -space-y-px">
             <div>
               <label for="videoUpload" class="sr-only">Video Upload</label>
               <input
-                id="videoUpload"
+                id="inputFile"
                 name="file"
                 type="file"
                 accept="video/*"
@@ -63,4 +65,10 @@
         </form>
       </div>
     </div>
+    <div>
+      <video controls id="videoEl" class="aspect-video w-full">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </body>
 </html>
