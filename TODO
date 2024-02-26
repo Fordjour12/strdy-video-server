@@ -1,8 +1,11 @@
 TODO:
     Basic:
-        ☐ Create a new egress folder when ffmpeg is called with a new output file
+        ✔ Create a new egress folder when ffmpeg is called with a new output file @done(24-02-26 02:15)
         ☐ html form to upload file
         ☐ Drag and drop file upload support
+        ☐ verify if the name of the file can be spilt by the dot and which part of the dot has the file name [eg:save.iofilename.mp4]."can be solved with spliting at .mp4"
+        
+
     Advanced:
         ☐ Add Google Cloud Storage support
         ☐ Cloud function to trigger on new file in bucket
