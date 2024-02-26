@@ -7,6 +7,9 @@ import ffmpeg from "fluent-ffmpeg";
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const port = Number(process.env.PORT);
 
 app.get("/", (request, response) => {
@@ -41,24 +44,29 @@ const upload = multer({
 app.post("/upload", upload.single("file"), (request, response) => {
   // request.file deprecated
   const file = request.file;
-  console.log({ "rqfile >>": request.file, "requestBody >>": request.body });
   if (!file) {
     response.status(400).json({ message: "No file uploaded" });
   }
 
+  // TODO: split the extension
   const fileName = file?.originalname.split(".")[1];
 
   try {
     const outputDirectory = "./uploads/egress/";
+    const newDir = path.join(outputDirectory, String(fileName));
+    if (!fs.existsSync(String(fileName))) {
+      fs.mkdirSync(newDir, { recursive: true });
+    }
     const outputFileName = `${fileName}output.m3u8`; // HLS playlist file
 
     const command = ffmpeg(file?.path)
-      .outputOptions("-hls_time 9") // Set the segment duration to 9 seconds
-      .outputOptions("-hls_playlist_type vod") // Create a VOD (Video On Demand) playlist
+      .outputOptions("-hls_time", "9") // Set the segment duration to 9 seconds
+      .outputOption("-hls_playlist_type", "vod") // Create a VOD (Video On Demand) playlist
       .outputOptions(
-        `-hls_segment_filename ${path.join(outputDirectory, "segment%03d.ts")}`
+        "-hls_segment_filename",
+        path.join(newDir, "segment%03d.ts")
       ) // Set the segment file names
-      .output(path.join(outputDirectory, outputFileName)) // Output to output.m3u8
+      .output(path.join(newDir, outputFileName)) // Output to output.m3u8
       .on("end", () => {
         console.log("File has been converted successfully");
       })
@@ -73,5 +81,4 @@ app.post("/upload", upload.single("file"), (request, response) => {
 });
 
 const callback = () => console.log(`Listening on port ${port}`);
-
 app.listen(port, callback);
