@@ -7,18 +7,49 @@ import ffmpeg from "fluent-ffmpeg";
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
 const port = Number(process.env.PORT);
 
 app.get("/", (request, response) => {
   response.send(`
-        <h1>Hello World from stryd video server</h1>
-        <p>Processing fitness video one frame a time...  </p>
-        <a href="/">Visit Upload </a>
-    `);
+  <div
+      style="
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      "
+    >
+      <h1 style="font-size:40px;text-transform:uppercase;">Hello World from stryd video server</h1>
+      <p>Processing fitness video one frame a time...</p>
+      <a
+        href="/static"
+        style="
+          display: inline-block;
+          padding: 10px 20px;
+          color: #fff;
+          background-color: #007bff;
+          border: none;
+          border-radius: 5px;
+          text-decoration: none;
+          margin-top: 20px;
+          text-align: center;
+          transition: background-color 0.3s ease;
+          :hover {
+            background-color: #0056b3;
+          }
+        "
+      >
+        Visit Upload
+      </a>
+    </div>
+  `);
 });
+
+app.use("/static", express.static("static"));
 
 const ingress = path.join(__dirname, "uploads/ingress/");
 const egress = path.join(__dirname, "uploads/egress/");
@@ -44,6 +75,9 @@ const upload = multer({
 app.post("/upload", upload.single("file"), (request, response) => {
   // request.file deprecated
   const file = request.file;
+
+  console.log({ "rqfile >>": request.file, "requestBody >>": request.body });
+
   if (!file) {
     response.status(400).json({ message: "No file uploaded" });
   }
@@ -74,7 +108,7 @@ app.post("/upload", upload.single("file"), (request, response) => {
         console.log("An error occurred: " + err.message);
       })
       .run();
-    response.json({ message: "File uploaded successfully" });
+    response.send(`<h2>File has been upload Successfully</h2>`);
   } catch (error) {
     console.error(error);
   }
